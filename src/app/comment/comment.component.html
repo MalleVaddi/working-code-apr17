@@ -1,0 +1,21 @@
+<div class="comment">
+  <h2>Comments</h2>
+
+  <!-- Input for Adding a New Comment -->
+  <input #commentInput type="text" placeholder="Write a comment..." />
+  <button (click)="addComment(commentInput.value); commentInput.value=''">Post Comment</button>
+
+  <ul>
+    <li *ngFor="let commentCtrl of commentControls; let i = index" [formGroup]="commentCtrl">
+      <!-- Displayed Comment -->
+      <span *ngIf="editingIndex !== i">{{ commentCtrl.get('text')?.value }}</span>
+
+      <!-- Editable Input Field -->
+      <input *ngIf="editingIndex === i" formControlName="text" />
+
+      <button *ngIf="editingIndex !== i" (click)="startEditing(i)">Edit</button>
+      <button *ngIf="editingIndex === i" (click)="saveComment(i, commentCtrl.get('text')?.value)">Save</button>
+      <button class="delete-btn" (click)="deleteComment(i)">Delete</button>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,219 @@
+/* You can add global styles to this file, and also import other style files */
+
+/*html, body { height: 100%; }
+body { font-family: Roboto, "Helvetica Neue", sans-serif; } */
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure the body and html take full height */
+  html, body {
+    height: 100%;
+    width: 100%; /* Force full width */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden; /* Prevent horizontal scrollbar */
+    /*overflow-y: hidden; */
+  }
+
+  /* The main content should fill the available space */
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Use Flexbox on body */
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7fa;
+    color: #333;
+    line-height: 1.2;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    width: 100%;
+    min-height: 100%;
+  }
+
+  header, footer {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  app-root {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Main Container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1; /* Let the content area grow and push footer down */
+  }
+
+
+  /* Header Styles */
+  header {
+    background: linear-gradient(135deg, #ff6f61, #ff9c00);
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Make sure header spans full width */
+    margin: 0; /* Remove any margin */
+    padding-left: 0; /* Make sure padding is uniform */
+    padding-right: 0; /* Make sure padding is uniform */
+    box-sizing: border-box; /* Ensure box sizing is consistent */
+  }
+  
+  header h1 {
+    font-size: 2.8rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  
+  header nav {
+    margin-top: 15px;
+  }
+  
+  header nav a {
+    color: white;
+    font-size: 1.1rem;
+    margin: 0 15px;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+  }
+  
+  header nav a:hover {
+    color: #f9d342;
+  }
+  
+  
+  
+  /* Content Section (cards, etc.) */
+
+  
+  .card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .card-header {
+    background-color: #ff6f61;
+    color: white;
+    padding: 15px;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  
+  .card-body {
+    padding: 20px;
+    font-size: 1.1rem;
+    color: #555;
+  }
+  
+  button {
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #e55d4f;
+    transform: scale(1.05);
+  }
+  
+  /* Profile Card */
+  .profile-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+  }
+  
+  .profile-card img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+  }
+  
+  .profile-card .info {
+    margin-left: 20px;
+  }
+  
+  .profile-card .info h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+  
+  .profile-card .info p {
+    color: #777;
+    font-size: 1rem;
+  }
+  
+  /* Footer Styles */
+/* Footer Styles */
+/* footer.component.scss */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+  }
+  
+  footer a {
+    color: #ff9c00;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 0 15px;
+  }
+  
+  footer .social-icons {
+    margin-top: 20px;
+  }
+  
+  footer .social-icons a {
+    color: #fff;
+    font-size: 1.5rem; /* Adjust size of icons */
+    margin: 0 15px;
+    transition: transform 0.3s ease;
+  }
+  
+  footer .social-icons a:hover {
+    transform: translateY(-5px);
+  }
+  

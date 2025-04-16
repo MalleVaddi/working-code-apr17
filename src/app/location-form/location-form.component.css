@@ -1,0 +1,88 @@
+.interactive-map {
+    padding: 20px;
+  }
+  
+  #mapContainer {
+    width: 100%;
+    height: 500px;
+    border: 1px solid #ccc;
+  }
+  .gm-style .gm-style-iw {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    max-width: 250px;
+  }
+  .map-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .interactive-map {
+    flex: 2;
+  }
+  
+  #map {
+    width: 100%;
+    height: 500px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .form-container {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 350px;
+  }
+  
+  .form-container h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #ff5722;
+  }
+  
+  .form-container label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+  }
+  
+  .form-container input,
+  .form-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+  
+  .form-container textarea {
+    resize: none;
+    height: 80px;
+  }
+  
+  .form-container button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background: #ff5722;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+  
+  .form-container button:hover {
+    background: #e64a19;
+  }
+  
+  

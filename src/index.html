@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Async loading the Google Maps API with a callback function -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJnGTl9-HnWHEwEMHpqJubXEn-pSBPb38"></script>
+  
+
+
+  <meta charset="utf-8">
+  <title>RoamFreeBeyondMap</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Ensure HTML and body take full height */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    /* Angular root component fills available space */
+    app-root {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+<body>
+  <app-root></app-root>
+  <script src="polyfills.js" type="module"></script>
+  <script src="main.js" type="module"></script>
+
+  <!-- Google Maps Callback -->
+  <script>
+    // Ensure initMap is globally available to be called by Google Maps API
+    window.initMap = function() {
+      console.log("Google Maps API is fully loaded");
+      // Your map initialization code can go here, like setting up markers
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+/* General Styling */
+div {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Student List Styling */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background: #ffffff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Button Styling */
+button {
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    padding: 20px 35px;
+    font-size: 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button[color="warn"] {
+    background: #dc3545;
+    color: white;
+}
+
+button[color="warn"]:hover {
+    background: #c82333;
+}
+
+button[color="accent"] {
+    background: #007bff;
+    color: white;
+}
+
+button[color="accent"]:hover {
+    background: #0056b3;
+}

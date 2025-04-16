@@ -1,0 +1,9 @@
+<div>
+    <ul *ngFor ="let user of user let i = index">
+        <li> {{user._id}}: {{user.firstName}} {{user.lastName}}, Email: {{user.email}}, Phone: {{user.phone}}, Street: {{user.street}} , City: {{user.city}} ,State: {{user.state}}, Zip: {{user.zip}}, Bio: {{user.bio}}, Profile Image: {{user.profileImage}}, Countries Visited: {{user.countries_visited}}
+          (index {{i}})
+          <button mat-button color="warn" (click)="onDelete(user._id)">DELETE</button>
+          <button mat-button color="accent" [routerLink]="['/editUser', user._id]">UPDATE</button>
+        </li>
+    </ul>
+</div>

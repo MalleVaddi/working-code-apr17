@@ -1,0 +1,87 @@
+<div>
+    <h3>{{mode}}User Form</h3>
+    <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
+    <div>
+        <mat-form-field >
+            <input matInput placeholder="First Name" id="firstname" formControlName="firstName" name="firstname" >
+            <span *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched">
+                Required (Min: 2 chars)
+              </span>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field >
+            <input matInput placeholder="Last Name" id="lastname" formControlName="lastName" name="lastname" >
+            <span *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched">
+                Required (Min: 2 chars)
+              </span>
+        </mat-form-field>
+    </div>   
+    <div> 
+        <mat-form-field >
+            <input matInput placeholder="Email" id="email" formControlName="email" name="email" >
+            <span *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+                Invalid email format
+              </span>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field >
+            <input matInput placeholder="Phone" id="phone" formControlName="phone" name="phone" >
+            <span *ngIf="userForm.get('phone')?.invalid && userForm.get('phone')?.touched">
+                Enter a valid 10-digit phone number
+              </span>
+        </mat-form-field>
+    </div>
+    <div>   
+        
+        <mat-form-field >
+            <input matInput placeholder="Street" id="street" formControlName="street" name="street" >
+        </mat-form-field>
+    </div>
+    <div>   
+        
+        <mat-form-field >
+            <input matInput placeholder="City" id="city" formControlName="city" name="city" >
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field >
+            <input matInput placeholder="State" id="state" formControlName="state" name="state" >
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field >
+            <input matInput placeholder="Zip" id="zip" formControlName="zip" name="zip" >
+            <span *ngIf="userForm.get('zip')?.invalid && userForm.get('zip')?.touched">
+                Enter a valid 5-digit zip code
+              </span>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field >
+            <input matInput placeholder="Bio" id="bio" formControlName="bio" name="bio" >
+        </mat-form-field>
+    </div>
+    
+        <label for="profilePic">Profile Picture:</label>
+        <input type="file" id="profilePic" (change)="onFileChange($event)" accept="image/*">
+      
+        <div *ngIf="profileImage">
+          <p>Image Preview:</p>
+          <img [src]="profileImage" alt="Profile Picture" width="150">
+          </div>
+        <br>
+        <div>
+            <mat-form-field >
+                <input matInput placeholder="Countries visited" id="countries_visited" formControlName="countries_visited" name="countries_visited" >
+            </mat-form-field>
+        </div>
+        <br>
+        <p>
+           <!-- <button type="submit" mat-raised-button color="primary">Submit</button>-->
+           <button type="submit" [disabled]="!userForm.valid">Create Profile</button>
+        </p>
+    </form>
+    </div>
+                       

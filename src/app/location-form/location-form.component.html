@@ -1,0 +1,54 @@
+<div class="map-container">
+    <!-- Map Section -->
+    <div class="interactive-map">
+      <h3>Explore the Map</h3>
+      <p>Click on the map to discover travel destinations, local eateries, and unique landmarks!</p>
+      <div #mapContainer id="map"></div>   
+    </div>
+
+    <div *ngIf="selectedMarker">
+      <button (click)="editMarker(selectedMarker)">Edit</button>
+      <button (click)="removeMarker(selectedMarker)">Delete</button>
+    </div>
+    
+
+  
+    <!-- Form Section -->
+    <div class="form-container">
+      <h3>Add a New Location</h3>
+      <form [formGroup]="locationForm" (ngSubmit)="addNewLocation()">
+        <label>Location Name</label>
+        <input type="text" formControlName="name" placeholder="Enter location name" required>
+      
+        <label>City</label>
+        <input type="text" formControlName="city" placeholder="Enter city" required>
+      
+        <label>Country</label>
+        <input type="text" formControlName="country" placeholder="Enter country" required>
+      
+        <label>Latitude</label>
+        <input type="number" formControlName="lat" placeholder="Enter latitude" required>
+      
+        <label>Longitude</label>
+        <input type="number" formControlName="lng" placeholder="Enter longitude" required>
+      
+        <label>Description</label>
+        <textarea formControlName="description" placeholder="Enter a brief description"></textarea>
+      
+        <label>Category</label>
+        <input type="text" formControlName="category" placeholder="Enter category" required>
+      
+        <label>Rating</label>
+        <input type="number" formControlName="rating" placeholder="Enter rating (1-5)" step="0.1">
+      
+        <button type="submit">
+          {{ isEditMode ? 'Update Location' : 'Add Location' }}
+        </button>
+        <button type="button" (click)="resetForm()">Reset</button>
+        
+      </form>
+       
+      
+    </div>
+  </div>
+  
