@@ -4,6 +4,7 @@ const bodyParser  = require('body-parser');
 const mongoose = require('mongoose');
 const Location = require('./models/location')
 const User = require('./models/user')
+const Post = require('./models/post');
 const cors = require('cors');
 app.use(cors());
 
@@ -90,6 +91,7 @@ app.delete('/locations/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }));
 });
 
+/*------------------- 📝 User Profile ROUTES ------------------- */
 app.get('/user_profile', (req, res, next) => {
   //we will add an array named students to pretend that we received this data from the database
       //call mongoose method find (MongoDB db.Students.find())
@@ -177,6 +179,110 @@ app.put('/user_profile/:id', (req, res, next) => {
       console.log("please provide correct id"); 
   } 
 });
+
+/* ------------------- 📝 POST ROUTES ------------------- */
+
+// Get all posts
+app.get('/api/posts', (req, res) => {
+  Post.find()
+    .then(posts => res.status(200).json(posts))
+    .catch(err => res.status(500).json({ error: 'Failed to retrieve posts', details: err.message }));
+});
+
+// Create a post
+app.post('/api/posts', (req, res) => {
+  const { title, content, author, tags } = req.body;
+
+  const post = new Post({
+    title,
+    content,
+    author,
+    tags
+  });
+
+  post.save()
+    .then(saved => res.status(201).json(saved))
+    .catch(err => res.status(500).json({ error: 'Failed to create post', details: err.message }));
+});
+
+// Add a comment to a specific post
+app.post('/api/posts/:postId/comments', async (req, res) => {
+  const { postId } = req.params;
+  const { text } = req.body;
+
+  if (!text?.trim()) {
+    return res.status(400).json({ error: 'Comment text is required' });
+  }
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) return res.status(404).json({ error: 'Post not found' });
+
+    if (!post.comments) post.comments = [];
+    post.comments.push({ text: text.trim() });
+
+    await post.save();
+
+    res.status(201).json({ message: 'Comment added successfully', post });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to add comment', details: err.message });
+  }
+});
+
+// Get comments for a specific post
+app.get('/api/posts/:postId/comments', async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) return res.status(404).json({ error: 'Post not found' });
+
+    const sortedComments = (post.comments || []).sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+
+    res.status(200).json(sortedComments);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch comments', details: err.message });
+  }
+});
+
+app.put('/api/posts/:postId/comments/:commentId', async (req, res) => {
+  const { postId, commentId } = req.params;
+  const { text } = req.body;
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) return res.status(404).json({ error: 'Post not found' });
+
+    const comment = post.comments.id(commentId);
+    if (!comment) return res.status(404).json({ error: 'Comment not found' });
+
+    comment.text = text;
+    await post.save();
+
+    res.json({ message: 'Comment updated', comment });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update comment', details: err.message });
+  }
+});
+
+app.delete('/api/posts/:postId/comments/:commentId', async (req, res) => {
+  const { postId, commentId } = req.params;
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) return res.status(404).json({ error: 'Post not found' });
+
+    post.comments.id(commentId)?.remove();
+    await post.save();
+
+    res.json({ message: 'Comment deleted' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete comment', details: err.message });
+  }
+});
+
 
 
 //to use this middleware in other parts of the application

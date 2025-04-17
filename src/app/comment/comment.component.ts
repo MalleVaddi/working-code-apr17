@@ -1,63 +1,97 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-comment',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, HttpClientModule],
   templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.css'],
+  styleUrls: ['./comment.component.css']
 })
-export class CommentComponent {
-  commentForm: FormGroup;
-  editingIndex: number | null = null; // Track the index of the comment being edited
+export class CommentComponent implements OnInit {
+  @Input() postId!: string;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.commentForm = this.formBuilder.group({
-      comments: this.formBuilder.array([]), // Store all comments in a single FormArray
+  commentForm: FormGroup;
+  comments: any[] = [];
+  loading: boolean = false;
+  editingCommentId: string | null = null;
+  editText: string = '';
+
+  constructor(private fb: FormBuilder, private http: HttpClient) {
+    this.commentForm = this.fb.group({
+      newComment: ['', Validators.required]
     });
   }
 
-  // Get comments as FormArray
-  get comments(): FormArray {
-    return this.commentForm.get('comments') as FormArray;
-  }
-
-  get commentControls(): FormGroup[] {
-    return (this.commentForm.get('comments') as FormArray).controls as FormGroup[];
-  }
-  
-
-  // Add a new comment
-  addComment(commentText: string): void {
-    if (commentText.trim()) {
-      this.comments.push(this.formBuilder.group({ text: [commentText, Validators.required] }));
+  ngOnInit(): void {
+    if (this.postId) {
+      this.loadComments();
     }
   }
 
-  // Enable edit mode for a comment
-  startEditing(index: number): void {
-    this.editingIndex = index;
-  }
-
-  // Save an edited comment
-  saveComment(index: number, newText: string): void {
-    if (newText.trim()) {
-      this.comments.at(index).patchValue({ text: newText });
-      this.editingIndex = null;
-    }
-  }
-
-  // Delete a comment
-  deleteComment(index: number): void {
-    const confirmDelete = confirm("Are you sure you want to delete this comment?");
-    if (confirmDelete) {
-      this.comments.removeAt(index);
-      if (this.editingIndex === index) {
-        this.editingIndex = null; // Reset editing state if the comment being edited is deleted
+  loadComments(): void {
+    this.loading = true;
+    this.http.get<any[]>(`http://localhost:8000/api/posts/${this.postId}/comments`).subscribe({
+      next: (data) => {
+        this.comments = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('❌ Failed to load comments', err);
+        this.loading = false;
       }
-    }
+    });
   }
-  
+
+  addComment(): void {
+    const text = this.commentForm.value.newComment?.trim();
+    if (!text) return;
+
+    this.http.post(`http://localhost:8000/api/posts/${this.postId}/comments`, { text }).subscribe({
+      next: () => {
+        this.commentForm.reset();
+        this.loadComments();
+      },
+      error: (err) => console.error('❌ Failed to post comment', err)
+    });
+  }
+
+  startEdit(comment: any): void {
+    this.editingCommentId = comment._id;
+    this.editText = comment.text;
+  }
+
+  cancelEdit(): void {
+    this.editingCommentId = null;
+    this.editText = '';
+  }
+
+  saveEdit(): void {
+    if (!this.editingCommentId || !this.editText.trim()) return;
+
+    this.http.put(
+      `http://localhost:8000/api/posts/${this.postId}/comments/${this.editingCommentId}`,
+      { text: this.editText.trim() }
+    ).subscribe({
+      next: () => {
+        this.cancelEdit();
+        this.loadComments();
+      },
+      error: (err) => console.error('❌ Failed to update comment', err)
+    });
+  }
+
+  deleteComment(commentId: string): void {
+    if (!confirm('Are you sure you want to delete this comment?')) return;
+
+    this.http.delete(
+      `http://localhost:8000/api/posts/${this.postId}/comments/${commentId}`
+    ).subscribe({
+      next: () => this.loadComments(),
+      error: (err) => console.error('❌ Failed to delete comment', err)
+    });
+  }
 }

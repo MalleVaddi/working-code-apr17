@@ -1,0 +1,57 @@
+<!-- Post Creation/Editing Form -->
+<div class="post-form">
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="center-form">
+      <h2>{{ currentPostIndex === null ? 'Create New Post' : 'Edit Post' }}</h2>
+  
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input id="title" type="text" formControlName="title" placeholder="Enter post title" />
+      </div>
+  
+      <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea id="content" formControlName="content" placeholder="Enter post content"></textarea>
+      </div>
+  
+      <div class="button-group">
+        <button type="submit" [disabled]="!postForm.valid">
+          {{ currentPostIndex === null ? 'Create Post' : 'Save Changes' }}
+        </button>
+        <button
+          type="button"
+          *ngIf="currentPostIndex !== null"
+          (click)="postForm.reset(); currentPostIndex = null"
+        >
+          Cancel Edit
+        </button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Posts List -->
+  <div class="posts-list">
+    <h2>All Posts</h2>
+  
+    <div *ngIf="posts.length === 0">No posts yet.</div>
+  
+    <ul>
+      <li *ngFor="let post of posts; let i = index">
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.content }}</p>
+        <p><strong>Author:</strong> {{ post.author || 'Unknown' }}</p>
+        <p><strong>Date:</strong> {{ post.createdAt | date: 'medium' }}</p>
+        <p *ngIf="post.tags?.length">
+          <strong>Tags:</strong> {{ post.tags.join(', ') }}
+        </p>
+  
+        <div class="button-group">
+          <button type="button" (click)="editPost(i)">Edit</button>
+          <button type="button" (click)="setDeleteIndex(i)">Delete</button>
+        </div>
+  
+        <!-- ✅ Integrated Comment Component per post -->
+        <app-comment [postId]="post._id"></app-comment>
+      </li>
+    </ul>
+  </div>
+  

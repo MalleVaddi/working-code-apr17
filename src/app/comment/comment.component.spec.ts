@@ -9,8 +9,8 @@ describe('CommentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, CommonModule], // Import necessary modules
-      declarations: [CommentComponent] // Declare the component
+      imports: [FormsModule, CommonModule], 
+      declarations: [CommentComponent] 
     })
     .compileComponents();
 

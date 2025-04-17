@@ -10,7 +10,7 @@ import { UserProfileService } from './user_profile.service';
 import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component';
 import { importProvidersFrom } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { CommentComponent } from './comment/comment.component';
+
 
 
 @Component({
@@ -23,8 +23,8 @@ import { CommentComponent } from './comment/comment.component';
     HeaderComponent, 
     FooterComponent,
     GoogleMapsModule,
-    NavigationMenuComponent,
-    CommentComponent],
+    NavigationMenuComponent
+    ],
   
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

@@ -3,7 +3,7 @@ import { LocationFormComponent } from './location-form/location-form.component';
 import { ListUserComponent } from './list-user/list-user.component'; 
 import { UserFormComponent } from './user-form/user-form.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { CommentComponent } from './comment/comment.component';
+import { PostComponent } from './post/post.component'; 
 
 
 
@@ -11,6 +11,9 @@ export const routes: Routes = [
     {
         path: '',  //default component to display
         component: ListUserComponent
+    }, {
+        path: 'posts', 
+        component: PostComponent
     }, {
         path: 'interactive-maps',  //when maps are clicked, display this component
         component: LocationFormComponent
@@ -24,9 +27,6 @@ export const routes: Routes = [
         path: 'listUser',  //when students listed
         component: ListUserComponent
     },  {
-        path: 'comment',  //when path cannot be found, keep this at the bottom
-        component: CommentComponent
-    }, {
         path: '**',  //when path cannot be found, keep this at the bottom
         component: NotFoundComponent
     },

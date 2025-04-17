@@ -1,21 +1,39 @@
-<div class="comment">
-  <h2>Comments</h2>
+<div class="comment-section">
+  <h4>Comments</h4>
 
-  <!-- Input for Adding a New Comment -->
-  <input #commentInput type="text" placeholder="Write a comment..." />
-  <button (click)="addComment(commentInput.value); commentInput.value=''">Post Comment</button>
+  <!-- Comment input -->
+  <div class="add-comment">
+    <form [formGroup]="commentForm" (ngSubmit)="addComment()">
+      <input type="text" placeholder="Add a comment" formControlName="newComment" />
+      <button type="submit" [disabled]="!commentForm.valid">Post</button>
+    </form>
+  </div>
 
+  <!-- Loading indicator -->
+  <div *ngIf="loading">Loading comments...</div>
+
+  <!-- Comment list -->
   <ul>
-    <li *ngFor="let commentCtrl of commentControls; let i = index" [formGroup]="commentCtrl">
-      <!-- Displayed Comment -->
-      <span *ngIf="editingIndex !== i">{{ commentCtrl.get('text')?.value }}</span>
+    <li *ngFor="let comment of comments">
+      <div *ngIf="editingCommentId !== comment._id">
+        {{ comment.text }}
+        <br />
+        <small>{{ comment.createdAt | date: 'short' }}</small>
+        <br />
+        <button (click)="startEdit(comment)">Edit</button>
+        <button (click)="deleteComment(comment._id)">Delete</button>
+      </div>
 
-      <!-- Editable Input Field -->
-      <input *ngIf="editingIndex === i" formControlName="text" />
-
-      <button *ngIf="editingIndex !== i" (click)="startEditing(i)">Edit</button>
-      <button *ngIf="editingIndex === i" (click)="saveComment(i, commentCtrl.get('text')?.value)">Save</button>
-      <button class="delete-btn" (click)="deleteComment(i)">Delete</button>
+      <div *ngIf="editingCommentId === comment._id">
+        <input type="text" [(ngModel)]="editText" />
+        <button (click)="saveEdit()">Save</button>
+        <button (click)="cancelEdit()">Cancel</button>
+      </div>
     </li>
   </ul>
+
+  <!-- Empty state -->
+  <div *ngIf="!loading && comments.length === 0">
+    <em>No comments yet.</em>
+  </div>
 </div>
