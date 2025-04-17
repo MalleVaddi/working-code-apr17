@@ -4,14 +4,18 @@ import { ListUserComponent } from './list-user/list-user.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { PostComponent } from './post/post.component'; 
+import { LoginComponent } from './login/login.component';
 
 
 
 export const routes: Routes = [
     {
         path: '',  //default component to display
-        component: ListUserComponent
+        component: LoginComponent
     }, {
+        path: 'login',  //  Login route
+        component: LoginComponent
+      }, {
         path: 'posts', 
         component: PostComponent
     }, {

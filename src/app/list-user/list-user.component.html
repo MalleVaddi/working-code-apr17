@@ -1,9 +1,43 @@
 <div>
+  <h2>User Information</h2>
+</div>
+
+<div>
     <ul *ngFor ="let user of user let i = index">
-        <li> {{user._id}}: {{user.firstName}} {{user.lastName}}, Email: {{user.email}}, Phone: {{user.phone}}, Street: {{user.street}} , City: {{user.city}} ,State: {{user.state}}, Zip: {{user.zip}}, Bio: {{user.bio}}, Profile Image: {{user.profileImage}}, Countries Visited: {{user.countries_visited}}
-          (index {{i}})
-          <button mat-button color="warn" (click)="onDelete(user._id)">DELETE</button>
-          <button mat-button color="accent" [routerLink]="['/editUser', user._id]">UPDATE</button>
-        </li>
+        
+          <div>
+            <span style="font-weight: bold;">Name:</span> {{user.firstName}} {{user.lastName}}
+          </div>
+          <div>  
+            <span style="font-weight: bold;"> Email:</span> {{user.email}}
+          </div>
+          <div>  
+            <span style="font-weight: bold;"> Phone:</span> {{user.phone}}
+          </div>
+          <div>
+            <span style="font-weight: bold;">Street:</span> {{user.street}} 
+          </div>
+          <div>
+            <span style="font-weight: bold;">City:</span> {{user.city}} 
+          </div>
+          <div>  
+            <span style="font-weight: bold;">State:</span> {{user.state}}
+          </div>
+          <div>
+            <span style="font-weight: bold;">Zip:</span> {{user.zip}}
+          </div>
+          <div> 
+            <span style="font-weight: bold;">Bio:</span> {{user.bio}}
+          </div>
+          <div>
+            <span style="font-weight: bold;">Profile Image:</span> {{user.profileImage}} 
+          </div>
+          <div>
+            <span style="font-weight: bold;">Countries Visited:</span> {{user.countries_visited}}
+          </div>
+            <button mat-button color="warn" (click)="onDelete(user._id)">DELETE</button>
+            <button mat-button color="accent" [routerLink]="['/editUser', user._id]">UPDATE</button>
+            
+        
     </ul>
 </div>

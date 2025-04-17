@@ -1,0 +1,53 @@
+<form class="border p-3 rounded-3" [formGroup]="loginForm" (ngSubmit)="loginSubmited()">
+    <div class="row g-0">
+        <div class="col text-center p-2 mb-3 bg-light">
+            <span class="fs-3">Login</span>
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-12 mb-3">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="email"
+            formControlName="email" >
+            <div class="form-text text-danger" *ngIf="Email.errors?.['required'] && (Email.dirty || Email.touched)">
+                Email is required
+            </div>
+            <div class="form-text text-danger" *ngIf="Email.errors?.['email'] && (Email.dirty || Email.touched)">
+                Email is Invalid.
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-12 mb-3">
+            <label for="pwd" class="form-label">Password</label>
+            <input type="password" class="form-control" id="pwd"
+            formControlName="pwd" >
+        </div>
+        <div class="form-text text-danger" *ngIf="Pwd.errors?.['required'] && (Pwd.dirty || Pwd.touched)">
+            Password is required    
+        </div>
+        <div class="form-text text-danger" *ngIf="Pwd.errors?.['minlength']|| Pwd.errors?.['maxlength'] && (Pwd.dirty || Pwd.touched)">
+            Password must be at least 6 and at max 12 characters long.
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="d-grid">
+            <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary">Login</button>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-6 offset-3">
+          <div class="d-grid">
+            <button type="button" class="btn btn-outline-secondary" (click)="goToSignup()">
+              Sign Up
+            </button>
+          </div>
+        </div>
+      </div>
+      
+</form>

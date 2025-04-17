@@ -18,14 +18,41 @@ import {ActivatedRoute, ParamMap } from '@angular/router';
 export class UserFormComponent implements OnInit {
   public mode = 'Add'; //default mode
   private id: any; //student ID
+  private user: any; //student object
   
 
   constructor(private _myService: UserProfileService,private router:Router,public route: ActivatedRoute) { }
   ngOnInit(){
     this.route.paramMap.subscribe((paramMap: ParamMap ) => {
-        if (paramMap.has('_id'))
-            { this.mode = 'Edit'; /*request had a parameter _id */ 
-            this.id = paramMap.get('_id');
+      if (paramMap.has('_id')) {
+        this.mode = 'Edit'; /*request had a parameter _id */
+        this.id = paramMap.get('_id');
+
+        this._myService.getUsers(this.id).subscribe({
+          next: (data => {
+                  //read data and assign to private variable student
+            this.user = data;
+                  //populate the firstName and lastName on the page
+            this.userForm.patchValue({
+                      firstName: this.user.firstName,
+                      lastName: this.user.lastName,
+                      email: this.user.email,
+                      phone: this.user.phone,
+                      street: this.user.street,
+                      city: this.user.city,
+                      state: this.user.state,
+                      zip: this.user.zip,
+                      bio: this.user.bio,
+                      profileImage: this.user.profileImage,
+                      countries_visited: this.user.countries_visited,
+                  })
+              }),
+
+              error: (err => console.error(err)),
+              complete: (() => console.log('finished loading'))
+          });
+
+
         } else {
             this.mode = 'Add';
             this.id = null; }

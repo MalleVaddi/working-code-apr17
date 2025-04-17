@@ -10,6 +10,7 @@ import { UserProfileService } from './user_profile.service';
 import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component';
 import { importProvidersFrom } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
 
 
 
@@ -23,7 +24,8 @@ import { provideHttpClient } from '@angular/common/http';
     HeaderComponent, 
     FooterComponent,
     GoogleMapsModule,
-    NavigationMenuComponent
+    NavigationMenuComponent,
+    LoginComponent
     ],
   
   templateUrl: './app.component.html',

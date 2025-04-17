@@ -22,6 +22,9 @@ export class UserProfileService {
         }); 
         //location.reload()
     }
+    getUsers(userId: string) {
+        return this.http.get('http://localhost:8000/user_profile/'+ userId);
+    }
     updateUser(userId: string,firstName: string, lastName: string,email: string,
         phone: string, street: string, city: string, state: string, zip: string,bio: string,profileImage: string,
         countries_visited: string ) {
