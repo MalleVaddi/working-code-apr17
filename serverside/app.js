@@ -9,9 +9,18 @@ const Login = require('./models/login')
 const cors = require('cors');
 app.use(cors());
 
-mongoose.connect('mongodb://localhost:27017/RoamFreeBeyondMap')
+/*mongoose.connect('mongodb://localhost:27017/RoamFreeBeyondMap')
     .then(() => { console.log("connected"); })
     .catch(() => { console.log("error connecting"); });
+    */
+
+    // MongoDB connection string
+    mongoose.connect('mongodb+srv://roam-free-beyond-map:roam-free-beyond-map@roamfreebeyondmap.5z1x5p4.mongodb.net/?retryWrites=true&w=majority&appName=RoamFreeBeyondMap', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then(() => { console.log("Connected to MongoDB"); })
+    .catch(err => { console.error("Error connecting to MongoDB:", err); });
 
     
 app.use((req, res, next) => {
@@ -43,6 +52,23 @@ Location.find()
 });
 
 });
+
+app.get('/locations/:id', (req, res) => {
+  const { id } = req.params;
+
+  // Optional: Validate MongoDB ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Invalid ID format' });
+  }
+
+  Location.findById(id)
+    .then(location => {
+      if (!location) return res.status(404).json({ error: 'Location not found' });
+      res.status(200).json(location);
+    })
+    .catch(err => res.status(500).json({ error: err.message }));
+});
+
 
 app.post('/locations', (req, res, next) => {
   console.log("📥 Incoming request body:", req.body); // <-- Add this line
