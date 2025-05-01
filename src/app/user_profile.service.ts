@@ -15,8 +15,8 @@ export class UserProfileService {
         return this.http.get('http://localhost:8000/user_profile');
     }
     //Uses http.post() to post data 
-    addUser(firstName: string, lastName: string,email: string, phone: string, street: string, city: string, state: string, zip: string, bio: string, profilePic: File, countries_visited: string) {
-    this.http.post('http://localhost:8000/user_profile',{ firstName, lastName, email, phone, street, city, state, zip, bio, profilePic, countries_visited })
+    addUser(firstName: string, lastName: string,email: string,password: string, phone: string, street: string, city: string, state: string, zip: string, bio: string,  countries_visited: string) {
+    this.http.post('http://localhost:8000/user_profile',{ firstName, lastName, email,password, phone, street, city, state, zip, bio, countries_visited })
         .subscribe((responseData) => {
             console.log(responseData);
         }); 
@@ -25,13 +25,13 @@ export class UserProfileService {
     getUsers(userId: string) {
         return this.http.get('http://localhost:8000/user_profile/'+ userId);
     }
-    updateUser(userId: string,firstName: string, lastName: string,email: string,
-        phone: string, street: string, city: string, state: string, zip: string,bio: string,profileImage: string,
+    updateUser(userId: string,firstName: string, lastName: string,email: string,password: string,
+        phone: string, street: string, city: string, state: string, zip: string,bio: string,
         countries_visited: string ) {
         //request path http://localhost:8000/students/5xbd456xx 
         //first and last names will be send as HTTP body parameters 
         this.http.put("http://localhost:8000/user_profile/" + 
-        userId,{ firstName, lastName, email, phone, street, city, state, zip, bio, profileImage,
+        userId,{ firstName, lastName, email, password, phone, street, city, state, zip, bio,
             countries_visited })
         .subscribe(() => {
             console.log('Updated: ' + userId);
@@ -44,6 +44,7 @@ export class UserProfileService {
         this.http.delete("http://localhost:8000/user_profile/" + userId)
             .subscribe(() => {
                 console.log('Deleted: ' + userId);
+                
             });
             location.reload()
     }
