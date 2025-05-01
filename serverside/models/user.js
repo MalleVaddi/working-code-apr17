@@ -5,13 +5,13 @@ const userSchema = new mongoose.Schema({
     firstName:  { type: String, required: true},
     lastName:  { type: String, required: true},
     email:      {type: String, required: true},
+    password:   { type: String, required: true },
     phone:      { type: String, required: true },
     street:     { type: String},
     city:       { type: String },
     state:      { type: String },
     zip:        { type: String },
     bio:        { type: String },
-    profileImage: { type: String },
     countries_visited: { type: String } // array of strings
     
 });
