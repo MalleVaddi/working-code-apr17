@@ -37,13 +37,14 @@ export class UserFormComponent implements OnInit {
                       firstName: this.user.firstName,
                       lastName: this.user.lastName,
                       email: this.user.email,
+                      password: this.user.password,
                       phone: this.user.phone,
                       street: this.user.street,
                       city: this.user.city,
                       state: this.user.state,
                       zip: this.user.zip,
                       bio: this.user.bio,
-                      profileImage: this.user.profileImage,
+                      //profileImage: this.user.profileImage,
                       countries_visited: this.user.countries_visited,
                   })
               }),
@@ -71,6 +72,7 @@ export class UserFormComponent implements OnInit {
       firstName: new FormControl('',[Validators.required, Validators.minLength(2)]),
       lastName: new FormControl('',[Validators.required, Validators.minLength(2)]),
       email: new FormControl('',[Validators.required, Validators.email]),
+      password: new FormControl('',[Validators.required, Validators.minLength(6)]),
       phone: new FormControl('',[Validators.required, Validators.pattern(/^\d{10}$/)]),
       
       street: new FormControl(''),
@@ -79,12 +81,12 @@ export class UserFormComponent implements OnInit {
       zip: new FormControl('',[Validators.required, Validators.pattern(/^\d{5}$/)]),
       
       bio: new FormControl(''),
-      profileImage: new FormControl(null as File | null),
-      profilePic: new FormControl(null as File | null),
+      //profileImage: new FormControl(null as File | null),
+      //profilePic: new FormControl(null as File | null),
       countries_visited: new FormControl(''),
 
     });
-    onFileChange(event: Event): void {
+    /*onFileChange(event: Event): void {
       const input = event.target as HTMLInputElement;
       if (input.files && input.files.length > 0) {
         const file = input.files[0];
@@ -95,29 +97,30 @@ export class UserFormComponent implements OnInit {
         };
         reader.readAsDataURL(file);
       }
-    }
+    }*/
   
     onSubmit(){
       let firstName = this.userForm.get('firstName')?.value ?? "";
       let lastName = this.userForm.get('lastName')?.value ?? "";
       let email = this.userForm.get('email')?.value ?? "";
+      let password = this.userForm.get('password')?.value ?? "";
       let phone = this.userForm.get('phone')?.value ?? "";
       let street = this.userForm.get('street')?.value ?? "";
       let city = this.userForm.get('city')?.value ?? "";
       let state = this.userForm.get('state')?.value ?? "";
       let zip = this.userForm.get('zip')?.value ?? "";
       let bio = this.userForm.get('bio')?.value ?? "";
-      let profileImage = this.userForm.get('profileImage')?.value ?? "";
+      //let profileImage = this.userForm.get('profileImage')?.value ?? "";
       let countries_visited = this.userForm.get('countries_visited')?.value ?? "";
       //let countries_visited = this.userForm.get('countries_visited')?.value ?? "";
-      console.log("You submitted: " + firstName + " " + lastName + " " + email + " " + phone + " " + street + " " + city + " " + state + " " + zip + " " + bio + " " + profileImage + " " + countries_visited);
+      console.log("You submitted: " + firstName + " " + lastName + " " + email + " " +  password + " " + phone + " " + street + " " + city + " " + state + " " + zip + " " + bio + " " + countries_visited);
      
       //(this._myService.addUser(firstName, lastName, email, phone, street, city, state, zip, bio, this.userForm.get('profilePic')?.value as File, countries_visited);)
       
     if (this.mode == 'Add')
-        this._myService.addUser(firstName, lastName, email, phone, street, city, state, zip, bio, this.userForm.get('profilePic')?.value as File, countries_visited);
+        this._myService.addUser(firstName, lastName, email, password, phone, street, city, state, zip, bio,countries_visited);
     if (this.mode == 'Edit')
-        this._myService.updateUser(this.id, firstName, lastName, email, phone, street, city, state, zip, bio, typeof profileImage === 'string' ? profileImage : '', countries_visited);
+        this._myService.updateUser(this.id, firstName, lastName, email, password, phone, street, city, state, zip, bio, countries_visited);
       
     this.router.navigate(['/listUser']);
     }
