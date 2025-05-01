@@ -110,7 +110,7 @@ app.put('/locations/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: err.message }));
 });
 
-app.delete('/locations/:id', (req, res) => {
+app.delete('/api/posts/:id', (req, res) => {
   const { id } = req.params; // _id from MongoDB
 
   Location.findByIdAndDelete(id)
