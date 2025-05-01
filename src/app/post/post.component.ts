@@ -38,12 +38,15 @@ export class PostComponent implements OnInit {
   }
   
 
-  onSubmit(): void {
+ onSubmit(): void {
+    console.log('postForm:', this.postForm); // Check if form is valid
     if (!this.postForm.valid) return;
-
-    const formData = this.postForm.value;
-
+  
+    const formData = this.postForm.value; // This is where the error occurs
+    console.log('formData:', formData); // See if this prints the expected value
+  
     if (this.currentPostIndex === null) {
+      // Create post
       this.http.post(this.apiUrl, formData).subscribe({
         next: () => {
           console.log('✅ Post created');
@@ -53,7 +56,18 @@ export class PostComponent implements OnInit {
         error: (err) => console.error('Error creating post:', err)
       });
     } else {
-      const postId = this.posts[this.currentPostIndex]._id;
+      // Update post
+      const post = this.posts[this.currentPostIndex];
+      console.log('Updating post with ID:', post);
+  
+      if (!post || !post._id) {
+        console.error('Invalid or missing post ID:', post);
+        return;
+      }
+  
+      const postId = post._id;
+      console.log('Post ID:', postId);
+  
       this.http.put(`${this.apiUrl}/${postId}`, formData).subscribe({
         next: () => {
           console.log('✏️ Post updated');
@@ -65,7 +79,6 @@ export class PostComponent implements OnInit {
       });
     }
   }
-
   editPost(index: number): void {
     this.currentPostIndex = index;
     const post = this.posts[index];
