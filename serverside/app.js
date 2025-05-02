@@ -278,6 +278,31 @@ app.post('/api/posts', (req, res) => {
     .catch(err => res.status(500).json({ error: 'Failed to create post', details: err.message }));
 });
 
+//Update a Post
+app.put('/api/posts/:id', async (req, res) => {
+  const { id } = req.params;
+  const update = req.body;
+
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(id, update, { new: true });
+    if (!updatedPost) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+    res.status(200).json(updatedPost);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update post', details: err.message });
+  }
+});
+
+//Delete a Post
+app.delete('/api/posts/:id', (req, res) => {
+  const { id } = req.params; // _id from MongoDB
+
+  Post.findByIdAndDelete(id)
+    .then(() => res.status(200).json({ message: 'Posts deleted successfully' }))
+    .catch(err => res.status(500).json({ error: err.message }));
+});
+
 // Add a comment to a specific post
 app.post('/api/posts/:postId/comments', async (req, res) => {
   const { postId } = req.params;
