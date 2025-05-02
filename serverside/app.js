@@ -138,13 +138,14 @@ app.post('/user_profile', (req, res, next) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
+      password: req.body.password,
       phone: req.body.phone,
       street: req.body.street,
       city: req.body.city,
       state: req.body.state,
       zip: req.body.zip,
       bio: req.body.bio,
-      profileImage: req.body.profileImage,
+      
       countries_visited: req.body.countries_visited
           
   });
@@ -196,14 +197,14 @@ app.put('/user_profile/:id', (req, res, next) => {
               firstName : req.body.firstName, 
               lastName : req.body.lastName ,
               email: req.body.email,
-              email: req.body.email,
+              password: req.body.password,
               phone: req.body.phone,
               street: req.body.street,
               city: req.body.city,
               state: req.body.state,
               zip: req.body.zip,
               bio: req.body.bio,
-              profileImage: req.body.profileImage,
+              
               countries_visited: req.body.countries_visited
           }}, 
           {new:true} 
