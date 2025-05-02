@@ -138,7 +138,7 @@ app.post('/user_profile', (req, res, next) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
-      password: req.body.password,
+      password: req.body.password, // Ensure you hash passwords in production
       phone: req.body.phone,
       street: req.body.street,
       city: req.body.city,
@@ -197,7 +197,7 @@ app.put('/user_profile/:id', (req, res, next) => {
               firstName : req.body.firstName, 
               lastName : req.body.lastName ,
               email: req.body.email,
-              password: req.body.password,
+              password: req.body.password, // Ensure you hash passwords in production
               phone: req.body.phone,
               street: req.body.street,
               city: req.body.city,
