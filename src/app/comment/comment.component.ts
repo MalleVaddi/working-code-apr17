@@ -34,29 +34,31 @@ export class CommentComponent implements OnInit {
 
   loadComments(): void {
     this.loading = true;
-    this.http.get<any[]>(`http://localhost:8000/api/posts/${this.postId}/comments`).subscribe({
-      next: (data) => {
-        this.comments = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('❌ Failed to load comments', err);
-        this.loading = false;
-      }
-    });
+    this.http.get<any[]>(`http://localhost:8000/api/comments/${this.postId}`) 
+      .subscribe({
+        next: (data) => {
+          this.comments = data;
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('❌ Failed to load comments', err);
+          this.loading = false;
+        }
+      });
   }
 
   addComment(): void {
     const text = this.commentForm.value.newComment?.trim();
     if (!text) return;
 
-    this.http.post(`http://localhost:8000/api/posts/${this.postId}/comments`, { text }).subscribe({
-      next: () => {
-        this.commentForm.reset();
-        this.loadComments();
-      },
-      error: (err) => console.error('❌ Failed to post comment', err)
-    });
+    this.http.post(`http://localhost:8000/api/comments`, { postId: this.postId, text }) 
+      .subscribe({
+        next: () => {
+          this.commentForm.reset();
+          this.loadComments();
+        },
+        error: (err) => console.error('❌ Failed to post comment', err)
+      });
   }
 
   startEdit(comment: any): void {
@@ -73,7 +75,7 @@ export class CommentComponent implements OnInit {
     if (!this.editingCommentId || !this.editText.trim()) return;
 
     this.http.put(
-      `http://localhost:8000/api/posts/${this.postId}/comments/${this.editingCommentId}`,
+      `http://localhost:8000/api/comments/${this.editingCommentId}`, 
       { text: this.editText.trim() }
     ).subscribe({
       next: () => {
@@ -88,7 +90,7 @@ export class CommentComponent implements OnInit {
     if (!confirm('Are you sure you want to delete this comment?')) return;
 
     this.http.delete(
-      `http://localhost:8000/api/posts/${this.postId}/comments/${commentId}`
+      `http://localhost:8000/api/comments/${commentId}` 
     ).subscribe({
       next: () => this.loadComments(),
       error: (err) => console.error('❌ Failed to delete comment', err)
