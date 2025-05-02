@@ -6,6 +6,7 @@ const Location = require('./models/location')
 const User = require('./models/user')
 const Post = require('./models/post');
 const Login = require('./models/login')
+const Comment = require('./models/comment');
 const cors = require('cors');
 app.use(cors());
 
@@ -328,54 +329,48 @@ app.post('/api/posts/:postId/comments', async (req, res) => {
   }
 });
 
-// Get comments for a specific post
-app.get('/api/posts/:postId/comments', async (req, res) => {
-  const { postId } = req.params;
+
+
+/* ------------------- 📝 COMMENT ROUTES ------------------- */
+
+// Create a comment
+app.post('/api/comments', async (req, res) => {
+  const { postId, text } = req.body;
+  if (!text?.trim()) return res.status(400).json({ error: 'Comment text is required' });
 
   try {
-    const post = await Post.findById(postId);
-    if (!post) return res.status(404).json({ error: 'Post not found' });
+    const comment = new Comment({ postId, text });
+    const saved = await comment.save();
+    res.status(201).json(saved);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to create comment', details: err.message });
+  }
+});
 
-    const sortedComments = (post.comments || []).sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
-
-    res.status(200).json(sortedComments);
+// Get all comments for a post
+app.get('/api/comments/:postId', async (req, res) => {
+  try {
+    const comments = await Comment.find({ postId: req.params.postId }).sort({ createdAt: -1 });
+    res.json(comments);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch comments', details: err.message });
   }
 });
 
-app.put('/api/posts/:postId/comments/:commentId', async (req, res) => {
-  const { postId, commentId } = req.params;
-  const { text } = req.body;
-
+// Update a comment
+app.put('/api/comments/:id', async (req, res) => {
   try {
-    const post = await Post.findById(postId);
-    if (!post) return res.status(404).json({ error: 'Post not found' });
-
-    const comment = post.comments.id(commentId);
-    if (!comment) return res.status(404).json({ error: 'Comment not found' });
-
-    comment.text = text;
-    await post.save();
-
-    res.json({ message: 'Comment updated', comment });
+    const updated = await Comment.findByIdAndUpdate(req.params.id, { text: req.body.text }, { new: true });
+    res.json(updated);
   } catch (err) {
     res.status(500).json({ error: 'Failed to update comment', details: err.message });
   }
 });
 
-app.delete('/api/posts/:postId/comments/:commentId', async (req, res) => {
-  const { postId, commentId } = req.params;
-
+// Delete a comment
+app.delete('/api/comments/:id', async (req, res) => {
   try {
-    const post = await Post.findById(postId);
-    if (!post) return res.status(404).json({ error: 'Post not found' });
-
-    post.comments.id(commentId)?.remove();
-    await post.save();
-
+    await Comment.findByIdAndDelete(req.params.id);
     res.json({ message: 'Comment deleted' });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete comment', details: err.message });
